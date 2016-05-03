@@ -20,6 +20,7 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.WrapperQueryBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -87,15 +88,49 @@ public class CopyIndexServiceimpl implements CopyIndexService {
 	@Override
 	public Boolean CopyIndex(String source, String target) {
 		// TODO Auto-generated method stub
-		this.CopyIndexMetadata(source, target);
+
 
 		// 单线程scroll，多线程bulk写入
-		ExecutorService fixedThreadPool = Executors.newFixedThreadPool(4);
+		int cpucores=Runtime.getRuntime().availableProcessors();
+		ExecutorService fixedThreadPool = Executors.newFixedThreadPool(cpucores);
 		QueryBuilder qb = QueryBuilders.matchAllQuery();
 
 		try {
 			SearchResponse scrollResp = esconfig.esclient().prepareSearch(source)
 					.setSearchType(SearchType.DFS_QUERY_AND_FETCH).setScroll(new TimeValue(60000)).setQuery(qb)
+					.setSize(500).execute().actionGet();
+			do {
+				final BulkRequestBuilder bulkRequest = esconfig.esclient().prepareBulk();
+				for (SearchHit hit : scrollResp.getHits().getHits()) {
+					bulkRequest.add(esconfig.esclient().prepareIndex(target, hit.getType().toString(), hit.getId())
+							.setSource(hit.getSourceAsString()));
+				}
+				fixedThreadPool.execute(new Runnable() {
+					public void run() {
+						bulkRequest.execute();
+					}
+				});
+				scrollResp = esconfig.esclient().prepareSearchScroll(scrollResp.getScrollId())
+						.setScroll(new TimeValue(60000)).execute().actionGet();
+			} while (scrollResp.getHits().getHits().length != 0);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return true;
+	}
+
+	@Override
+	public Boolean CopyIndexByQueryDsl(String source, String target, String DSL) {
+		// TODO Auto-generated method stub
+		// 单线程scroll，多线程bulk写入
+		int cpucores=Runtime.getRuntime().availableProcessors();
+		ExecutorService fixedThreadPool = Executors.newFixedThreadPool(cpucores);
+		WrapperQueryBuilder wrapper = new WrapperQueryBuilder(DSL);
+		try {
+			SearchResponse scrollResp = esconfig.esclient().prepareSearch(source)
+					.setSearchType(SearchType.DFS_QUERY_AND_FETCH).setScroll(new TimeValue(60000)).setQuery(wrapper)
 					.setSize(500).execute().actionGet();
 			do {
 				final BulkRequestBuilder bulkRequest = esconfig.esclient().prepareBulk();
