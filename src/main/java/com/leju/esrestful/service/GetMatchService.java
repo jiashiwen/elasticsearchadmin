@@ -1,5 +1,7 @@
 package com.leju.esrestful.service;
 
+import java.net.UnknownHostException;
+
 import org.elasticsearch.action.search.SearchResponse;
 
 /**
@@ -7,6 +9,6 @@ import org.elasticsearch.action.search.SearchResponse;
  */
 
 public interface GetMatchService {
-	public SearchResponse getResponse();
-	public SearchResponse getResponse(String keyword);
+	public SearchResponse getResponse() throws UnknownHostException;
+	public SearchResponse getResponse(String keyword) throws UnknownHostException;
 }

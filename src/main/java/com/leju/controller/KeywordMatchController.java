@@ -1,5 +1,7 @@
 package com.leju.controller;
 
+import java.net.UnknownHostException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 //import com.sishuok.entity.User;  
@@ -20,7 +22,7 @@ public class KeywordMatchController {
 
 	@RequestMapping(value = "/match")
 	public String getName(@RequestParam("keyword") String keyword,
-			@RequestParam(value = "force", required = false) boolean force) {
+			@RequestParam(value = "force", required = false) boolean force) throws UnknownHostException {
 
 		if (force == true) {
 			return String.valueOf(force);

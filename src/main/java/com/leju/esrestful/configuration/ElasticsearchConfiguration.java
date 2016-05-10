@@ -24,22 +24,22 @@ public class ElasticsearchConfiguration {
 	@Resource
 	private Environment environment;
 
-	
 	@Bean
-	public  Client esclient() throws UnknownHostException {
-		int port=Integer.parseInt(environment.getProperty("elasticsearch.port"));
-		Settings setting = Settings.settingsBuilder().put("cluster.name", environment.getProperty("elasticsearch.clustername")).build();
-       
-			
-		 Client client = TransportClient.builder().settings(setting).build()
-					.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(environment.getProperty("elasticsearch.host")),port ));
+	public Client esclient() throws UnknownHostException {
+		int port = Integer.parseInt(environment.getProperty("elasticsearch.port"));
+		Settings setting = Settings.settingsBuilder()
+				.put("cluster.name", environment.getProperty("elasticsearch.clustername")).build();
+		Client client = TransportClient.builder().settings(setting).build().addTransportAddress(
+				new InetSocketTransportAddress(InetAddress.getByName(environment.getProperty("elasticsearch.host")),
+						port));
 
 		return client;
+
 	}
 
-//	@Bean
-//	public ElasticsearchOperations elasticsearchTemplate() {
-//		return new ElasticsearchTemplate(client());
-//	}
+	// @Bean
+	// public ElasticsearchOperations elasticsearchTemplate() {
+	// return new ElasticsearchTemplate(client());
+	// }
 
 }

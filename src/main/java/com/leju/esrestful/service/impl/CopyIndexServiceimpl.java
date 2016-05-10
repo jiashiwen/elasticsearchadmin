@@ -23,9 +23,12 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.WrapperQueryBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.carrotsearch.hppc.cursors.ObjectObjectCursor;
+import com.leju.com.entities.StatusEntity;
+import com.leju.esrestful.configuration.AsyncStatusConfiguration;
 import com.leju.esrestful.configuration.ElasticsearchConfiguration;
 import com.leju.esrestful.service.CopyIndexService;
 
@@ -89,9 +92,8 @@ public class CopyIndexServiceimpl implements CopyIndexService {
 	public Boolean CopyIndex(String source, String target) {
 		// TODO Auto-generated method stub
 
-
 		// 单线程scroll，多线程bulk写入
-		int cpucores=Runtime.getRuntime().availableProcessors();
+		int cpucores = Runtime.getRuntime().availableProcessors();
 		ExecutorService fixedThreadPool = Executors.newFixedThreadPool(cpucores);
 		QueryBuilder qb = QueryBuilders.matchAllQuery();
 
@@ -122,12 +124,21 @@ public class CopyIndexServiceimpl implements CopyIndexService {
 	}
 
 	@Override
-	public Boolean CopyIndexByQueryDsl(String source, String target, String DSL) {
+	@Async
+	public void CopyIndexByQueryDsl(String source, String target, String DSL) {
 		// TODO Auto-generated method stub
-		// 单线程scroll，多线程bulk写入
-		int cpucores=Runtime.getRuntime().availableProcessors();
+		// 开始运行时，执行插入运行状态
+		StatusEntity se = new StatusEntity();
+		se.setSource(source);
+		se.setTarget(target);
+		se.setStatus(AsyncStatusConfiguration.getExecuting());
+		AsyncStatusConfiguration.addStatusmap(se.getTarget(), se);
+
+		// 单线程scroll，bulk写入
+		int cpucores = Runtime.getRuntime().availableProcessors();
 		ExecutorService fixedThreadPool = Executors.newFixedThreadPool(cpucores);
 		WrapperQueryBuilder wrapper = new WrapperQueryBuilder(DSL);
+
 		try {
 			SearchResponse scrollResp = esconfig.esclient().prepareSearch(source)
 					.setSearchType(SearchType.DFS_QUERY_AND_FETCH).setScroll(new TimeValue(60000)).setQuery(wrapper)
@@ -149,9 +160,14 @@ public class CopyIndexServiceimpl implements CopyIndexService {
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			se.setStatus(AsyncStatusConfiguration.getError());
+			AsyncStatusConfiguration.addStatusmap(se.getTarget(), se);
 		}
 
-		return true;
+		// 运行介绍，执行插入成功状态
+		se.setStatus(AsyncStatusConfiguration.getSuccess());
+		AsyncStatusConfiguration.addStatusmap(se.getTarget(), se);
 	}
 
 }

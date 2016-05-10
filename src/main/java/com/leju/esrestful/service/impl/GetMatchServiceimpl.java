@@ -19,24 +19,21 @@ public class GetMatchServiceimpl implements GetMatchService {
 	private ElasticsearchConfiguration config;
 
 	@Override
-	public SearchResponse getResponse() {
+	public SearchResponse getResponse() throws UnknownHostException {
 		// TODO Auto-generated method stub
 
 		SearchResponse response = new SearchResponse();
-		try {
+		
 			response = config.esclient().prepareSearch("news").setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
 					.setQuery(QueryBuilders.matchQuery("_content", "王石")) // Query
 					.setFrom(0).setSize(6).setExplain(true).execute().actionGet();
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
 
 		return response;
 	}
 
 	@Override
-	public SearchResponse getResponse(String keyword) {
+	public SearchResponse getResponse(String keyword) throws UnknownHostException {
 		// TODO Auto-generated method stub
 
 		SearchResponse response = new SearchResponse();
@@ -60,14 +57,11 @@ public class GetMatchServiceimpl implements GetMatchService {
 		 searchSourceBuilder.query(QueryBuilders.matchQuery("_content",
 		 keyword));
 		 searchSourceBuilder.fetchSource(new String[] { "_content", "_title" }, null);
-		 try {
+	
 		 response =
 		 config.esclient().prepareSearch("news").addField("_id").setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
 		 .setExtraSource(searchSourceBuilder.toString()).execute().actionGet();
-		 } catch (UnknownHostException e) {
-		 // TODO Auto-generated catch block
-		 e.printStackTrace();
-		 }
+
 		 
 		/*
 		 * try { response =

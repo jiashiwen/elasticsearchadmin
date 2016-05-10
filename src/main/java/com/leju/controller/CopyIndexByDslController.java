@@ -58,11 +58,7 @@ public class CopyIndexByDslController {
 				result = "copy " + source + "  to " + target + " False!";
 			}
 		} else if (type.equals("data")) {
-			if (copyindex.CopyIndexByQueryDsl(source, target,querydsl)) {
-				return result;
-			} else {
-				result = "copy " + source + "  to " + target + " False!";
-			}
+			copyindex.CopyIndexByQueryDsl(source, target,querydsl);
 		}
 		return result;
 

@@ -1,5 +1,7 @@
 package com.leju.controller;
 
+import java.net.UnknownHostException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 //import com.sishuok.entity.User;  
@@ -21,7 +23,8 @@ public class DslQueryController {
 	DslQueryService  dslquery;
 
 	@RequestMapping(value = "/dslquery", params = {"indexname"},method={RequestMethod.POST})
-	public String getrestult(@RequestParam("indexname") String indexname, @RequestBody String  querystring) {	
+	public String getrestult(@RequestParam("indexname") String indexname, @RequestBody String  querystring) throws UnknownHostException {	
+		System.out.print(querystring);
 		return dslquery.getResponse(indexname.split(","), querystring).toString();		
 	}
 }

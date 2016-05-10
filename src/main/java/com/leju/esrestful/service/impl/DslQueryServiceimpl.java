@@ -17,15 +17,10 @@ public  class DslQueryServiceimpl implements DslQueryService {
 	private ElasticsearchConfiguration config;
 
 	@Override
-	public SearchResponse getResponse(String[] index,String dsl) {
+	public SearchResponse getResponse(String[] index,String dsl) throws UnknownHostException {
 		SearchResponse response = new SearchResponse();
-		WrapperQueryBuilder wrapper = new WrapperQueryBuilder(dsl);
-		try {
-			response = config.esclient().prepareSearch().setIndices(index).setQuery(wrapper).execute().actionGet();
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		WrapperQueryBuilder wrapper = new WrapperQueryBuilder(dsl);		
+			response = config.esclient().prepareSearch().setIndices(index).setQuery(wrapper).execute().actionGet();		
 		return response;
 	}
 

@@ -3,24 +3,16 @@ package com.leju.esrestful.service.impl;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
-import org.elasticsearch.action.admin.indices.mapping.get.GetMappingsResponse;
-import org.elasticsearch.action.admin.indices.settings.get.GetSettingsResponse;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.cluster.ClusterState;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
-import org.elasticsearch.cluster.metadata.MappingMetaData;
-import org.elasticsearch.common.collect.ImmutableOpenMap;
-import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -28,7 +20,6 @@ import org.elasticsearch.search.SearchHit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.carrotsearch.hppc.cursors.ObjectObjectCursor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.leju.esrestful.configuration.ElasticsearchConfiguration;
@@ -50,7 +41,7 @@ public class ReindexServiceimpl implements ReindexService {
 	@Override
 	public String Reindex(String SourceName, String TargetName) {
 		// TODO Auto-generated method stub
-		String mapping = null;
+		String mapping = "";
 		ClusterState clusterstate;
 		try {
 			clusterstate = config.esclient().admin().cluster().prepareState().setIndices(SourceName).execute()
@@ -76,7 +67,9 @@ public class ReindexServiceimpl implements ReindexService {
 		String sourcestring = "";
 		
 		// 单线程scroll，多线程bulk写入
-		ExecutorService fixedThreadPool = Executors.newFixedThreadPool(4);
+		int cpucores=Runtime.getRuntime().availableProcessors();
+		ExecutorService fixedThreadPool = Executors.newFixedThreadPool(cpucores);
+	
 		QueryBuilder qb = QueryBuilders.matchAllQuery();
 
 		try {

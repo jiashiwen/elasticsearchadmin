@@ -1,5 +1,7 @@
 package com.leju.controller;
 
+import java.net.UnknownHostException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.context.annotation.ComponentScan;
@@ -16,7 +18,7 @@ public class TestPostserviceController {
 	GetMatchService service;
 
 	@RequestMapping(value = "/testpostservice")
-	public String getTag() {
+	public String getTag() throws UnknownHostException {
 		return service.getResponse().toString();
 	}
 
