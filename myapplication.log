@@ -1,0 +1,84 @@
+2016-05-10 09:11:23.985  INFO 611 --- [main] com.leju.SearchrestApplication           : Starting SearchrestApplication on jiashiwen-office with PID 611 (/home/develop/workspace/elasticsearchadmin/bin started by develop in /home/develop/workspace/elasticsearchadmin)
+2016-05-10 09:11:23.988  INFO 611 --- [main] com.leju.SearchrestApplication           : No active profile set, falling back to default profiles: default
+2016-05-10 09:11:24.036  INFO 611 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@e056f20: startup date [Tue May 10 09:11:24 CST 2016]; root of context hierarchy
+2016-05-10 09:11:24.958  INFO 611 --- [main] o.s.b.f.s.DefaultListableBeanFactory     : Overriding bean definition for bean 'beanNameViewResolver' with a different definition: replacing [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.boot.autoconfigure.web.ErrorMvcAutoConfiguration$WhitelabelErrorViewConfiguration; factoryMethodName=beanNameViewResolver; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/autoconfigure/web/ErrorMvcAutoConfiguration$WhitelabelErrorViewConfiguration.class]] with [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration$WebMvcAutoConfigurationAdapter; factoryMethodName=beanNameViewResolver; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/autoconfigure/web/WebMvcAutoConfiguration$WebMvcAutoConfigurationAdapter.class]]
+2016-05-10 09:11:25.972  INFO 611 --- [main] e.j.JettyEmbeddedServletContainerFactory : Server initialized with port: 8080
+2016-05-10 09:11:25.976  INFO 611 --- [main] org.eclipse.jetty.server.Server          : jetty-9.2.15.v20160210
+2016-05-10 09:11:26.136  INFO 611 --- [main] application                              : Initializing Spring embedded WebApplicationContext
+2016-05-10 09:11:26.740  INFO 611 --- [main] o.s.b.c.e.ServletRegistrationBean        : Mapping servlet: 'dispatcherServlet' to [/]
+2016-05-10 09:11:26.747  INFO 611 --- [main] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'characterEncodingFilter' to: [/*]
+2016-05-10 09:11:26.748  INFO 611 --- [main] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2016-05-10 09:11:26.748  INFO 611 --- [main] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2016-05-10 09:11:26.748  INFO 611 --- [main] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'requestContextFilter' to: [/*]
+2016-05-10 09:11:27.183  INFO 611 --- [main] o.e.jetty.server.handler.ContextHandler  : Started o.s.b.c.e.j.JettyEmbeddedWebAppContext@1280851e{/,file:/tmp/jetty-docbase.5340342461844337940.8080/,AVAILABLE}
+2016-05-10 09:11:27.184  INFO 611 --- [main] org.eclipse.jetty.server.Server          : Started @4589ms
+2016-05-10 09:11:27.404  INFO 611 --- [main] org.elasticsearch.plugins                : [Elias Bogan] modules [], plugins [], sites []
+2016-05-10 09:11:29.334  INFO 611 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2016-05-10 09:11:29.374  INFO 611 --- [main] application                              : Initializing Spring FrameworkServlet 'dispatcherServlet'
+2016-05-10 09:11:29.405  INFO 611 --- [main] o.eclipse.jetty.server.ServerConnector   : Started ServerConnector@a146b11{HTTP/1.1}{0.0.0.0:8080}
+2016-05-10 09:11:29.409  INFO 611 --- [main] .s.b.c.e.j.JettyEmbeddedServletContainer : Jetty started on port(s) 8080 (http/1.1)
+2016-05-10 09:11:29.429  INFO 611 --- [main] com.leju.SearchrestApplication           : Started SearchrestApplication in 6.084 seconds (JVM running for 6.834)
+2016-05-10 09:11:40.989 ERROR 611 --- [qtp1468343491-20] .GlobalExceptionHandlingControllerAdvice : all shards failed
+
+org.elasticsearch.action.search.SearchPhaseExecutionException: all shards failed
+	at org.elasticsearch.action.search.type.TransportSearchTypeAction$BaseAsyncAction.onFirstPhaseResult(TransportSearchTypeAction.java:228)
+	at org.elasticsearch.action.search.type.TransportSearchTypeAction$BaseAsyncAction$1.onFailure(TransportSearchTypeAction.java:174)
+	at org.elasticsearch.action.ActionListenerResponseHandler.handleException(ActionListenerResponseHandler.java:46)
+	at org.elasticsearch.transport.netty.MessageChannelHandler.handleException(MessageChannelHandler.java:211)
+	at org.elasticsearch.transport.netty.MessageChannelHandler.handlerResponseError(MessageChannelHandler.java:201)
+	at org.elasticsearch.transport.netty.MessageChannelHandler.messageReceived(MessageChannelHandler.java:136)
+	at org.jboss.netty.channel.SimpleChannelUpstreamHandler.handleUpstream(SimpleChannelUpstreamHandler.java:70)
+	at org.jboss.netty.channel.DefaultChannelPipeline.sendUpstream(DefaultChannelPipeline.java:564)
+	at org.jboss.netty.channel.DefaultChannelPipeline$DefaultChannelHandlerContext.sendUpstream(DefaultChannelPipeline.java:791)
+	at org.jboss.netty.channel.Channels.fireMessageReceived(Channels.java:296)
+	at org.jboss.netty.handler.codec.frame.FrameDecoder.unfoldAndFireMessageReceived(FrameDecoder.java:462)
+	at org.jboss.netty.handler.codec.frame.FrameDecoder.callDecode(FrameDecoder.java:443)
+	at org.jboss.netty.handler.codec.frame.FrameDecoder.messageReceived(FrameDecoder.java:303)
+	at org.jboss.netty.channel.SimpleChannelUpstreamHandler.handleUpstream(SimpleChannelUpstreamHandler.java:70)
+	at org.jboss.netty.channel.DefaultChannelPipeline.sendUpstream(DefaultChannelPipeline.java:564)
+	at org.jboss.netty.channel.DefaultChannelPipeline.sendUpstream(DefaultChannelPipeline.java:559)
+	at org.jboss.netty.channel.Channels.fireMessageReceived(Channels.java:268)
+	at org.jboss.netty.channel.Channels.fireMessageReceived(Channels.java:255)
+	at org.jboss.netty.channel.socket.nio.NioWorker.read(NioWorker.java:88)
+	at org.jboss.netty.channel.socket.nio.AbstractNioWorker.process(AbstractNioWorker.java:108)
+	at org.jboss.netty.channel.socket.nio.AbstractNioSelector.run(AbstractNioSelector.java:337)
+	at org.jboss.netty.channel.socket.nio.AbstractNioWorker.run(AbstractNioWorker.java:89)
+	at org.jboss.netty.channel.socket.nio.NioWorker.run(NioWorker.java:178)
+	at org.jboss.netty.util.ThreadRenamingRunnable.run(ThreadRenamingRunnable.java:108)
+	at org.jboss.netty.util.internal.DeadLockProofWorker$1.run(DeadLockProofWorker.java:42)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: org.elasticsearch.common.io.stream.NotSerializableExceptionWrapper: Unexpected character ('"' (code 34)): was expecting comma to separate OBJECT entries
+ at [Source: [B@3b3938b7; line: 5, column: 11]
+	at com.fasterxml.jackson.core.JsonParser._constructError(JsonParser.java:1581)
+	at com.fasterxml.jackson.core.base.ParserMinimalBase._reportError(ParserMinimalBase.java:533)
+	at com.fasterxml.jackson.core.base.ParserMinimalBase._reportUnexpectedChar(ParserMinimalBase.java:462)
+	at com.fasterxml.jackson.core.json.UTF8StreamJsonParser.nextToken(UTF8StreamJsonParser.java:727)
+	at org.elasticsearch.common.xcontent.json.JsonXContentParser.nextToken(JsonXContentParser.java:53)
+	at org.elasticsearch.index.query.MultiMatchQueryParser.parse(MultiMatchQueryParser.java:70)
+	at org.elasticsearch.index.query.QueryParseContext.parseInnerQuery(QueryParseContext.java:257)
+	at org.elasticsearch.index.query.QueryFilterParser.parse(QueryFilterParser.java:44)
+	at org.elasticsearch.index.query.QueryParseContext.parseInnerQuery(QueryParseContext.java:257)
+	at org.elasticsearch.index.query.WrapperQueryParser.parse(WrapperQueryParser.java:63)
+	at org.elasticsearch.index.query.QueryParseContext.parseInnerQuery(QueryParseContext.java:257)
+	at org.elasticsearch.index.query.IndexQueryParserService.innerParse(IndexQueryParserService.java:303)
+	at org.elasticsearch.index.query.IndexQueryParserService.parse(IndexQueryParserService.java:206)
+	at org.elasticsearch.index.query.IndexQueryParserService.parse(IndexQueryParserService.java:201)
+	at org.elasticsearch.search.query.QueryParseElement.parse(QueryParseElement.java:33)
+	at org.elasticsearch.search.SearchService.parseSource(SearchService.java:831)
+	at org.elasticsearch.search.SearchService.createContext(SearchService.java:651)
+	at org.elasticsearch.search.SearchService.createAndPutContext(SearchService.java:617)
+	at org.elasticsearch.search.SearchService.executeQueryPhase(SearchService.java:368)
+	at org.elasticsearch.search.action.SearchServiceTransportAction$SearchQueryTransportHandler.messageReceived(SearchServiceTransportAction.java:368)
+	at org.elasticsearch.search.action.SearchServiceTransportAction$SearchQueryTransportHandler.messageReceived(SearchServiceTransportAction.java:365)
+	at org.elasticsearch.transport.netty.MessageChannelHandler$RequestHandler.doRun(MessageChannelHandler.java:299)
+	at org.elasticsearch.common.util.concurrent.AbstractRunnable.run(AbstractRunnable.java:37)
+	... 3 common frames omitted
+
+2016-05-10 09:11:48.355  INFO 611 --- [RMI TCP Connection(2)-127.0.0.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
+2016-05-10 09:11:48.355  INFO 611 --- [RMI TCP Connection(2)-127.0.0.1] ationConfigEmbeddedWebApplicationContext : Closing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@e056f20: startup date [Tue May 10 09:11:24 CST 2016]; root of context hierarchy
+2016-05-10 09:11:48.358  INFO 611 --- [RMI TCP Connection(2)-127.0.0.1] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans on shutdown
+2016-05-10 09:11:48.467  INFO 611 --- [RMI TCP Connection(2)-127.0.0.1] o.eclipse.jetty.server.ServerConnector   : Stopped ServerConnector@a146b11{HTTP/1.1}{0.0.0.0:8080}
+2016-05-10 09:11:48.468  INFO 611 --- [RMI TCP Connection(2)-127.0.0.1] application                              : Destroying Spring FrameworkServlet 'dispatcherServlet'
+2016-05-10 09:11:48.468  INFO 611 --- [RMI TCP Connection(2)-127.0.0.1] o.e.jetty.server.handler.ContextHandler  : Stopped o.s.b.c.e.j.JettyEmbeddedWebAppContext@1280851e{/,file:/tmp/jetty-docbase.5340342461844337940.8080/,UNAVAILABLE}
